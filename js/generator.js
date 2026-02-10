@@ -81,7 +81,8 @@ document.getElementById('portfolioForm').addEventListener('submit', async (e) =>
         github: document.getElementById('pGithub').value,
         skills: document.getElementById('pSkills').value,
         tools: document.getElementById('pTools').value,
-        design: document.getElementById('pDesign').value
+        design: document.getElementById('pDesign').value,
+        projects: collectProjectData()
     };
 
     try {
@@ -130,6 +131,57 @@ document.getElementById('portfolioForm').addEventListener('submit', async (e) =>
         statusText.classList.add('text-red-400');
     }
 });
+
+// Project Field Management
+const projectCountInput = document.getElementById('projectCount');
+const projectsContainer = document.getElementById('projectsContainer');
+
+if (projectCountInput && projectsContainer) {
+    projectCountInput.addEventListener('change', updateProjectFields);
+    projectCountInput.addEventListener('input', updateProjectFields);
+}
+
+function updateProjectFields() {
+    const count = parseInt(projectCountInput.value) || 0;
+    const currentFields = projectsContainer.children.length;
+
+    if (count > currentFields) {
+        // Add fields
+        for (let i = currentFields; i < count; i++) {
+            const projectDiv = document.createElement('div');
+            projectDiv.className = 'glass p-4 rounded-xl border border-slate-600/50 space-y-3 animate-fade-in';
+            projectDiv.innerHTML = `
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-bold text-cyan-400 uppercase">Project ${i + 1}</span>
+                </div>
+                <input type="text" class="proj-name w-full bg-slate-800/50 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:border-cyan-400 outline-none" placeholder="Project Name" required>
+                <textarea class="proj-desc w-full bg-slate-800/50 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:border-cyan-400 outline-none resize-none h-16" placeholder="Brief description of the project..." required></textarea>
+                <input type="text" class="proj-tech w-full bg-slate-800/50 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:border-cyan-400 outline-none" placeholder="Tech Stack (e.g., React, Node.js)" required>
+            `;
+            projectsContainer.appendChild(projectDiv);
+        }
+    } else if (count < currentFields) {
+        // Remove fields
+        while (projectsContainer.children.length > count) {
+            projectsContainer.removeChild(projectsContainer.lastChild);
+        }
+    }
+}
+
+function collectProjectData() {
+    const projects = [];
+    if (!projectsContainer) return projects;
+
+    const projectDivs = projectsContainer.children;
+    for (let div of projectDivs) {
+        projects.push({
+            name: div.querySelector('.proj-name').value,
+            description: div.querySelector('.proj-desc').value,
+            tech: div.querySelector('.proj-tech').value
+        });
+    }
+    return projects;
+}
 
 
 function generateMockPortfolio(data) {
@@ -191,6 +243,26 @@ function generateMockPortfolio(data) {
             </div>
         </div>
     </section>
+
+    <!-- Projects (Mock) -->
+    ${data.projects && data.projects.length > 0 ? `
+    <section class="py-20 ${isLight ? 'bg-slate-100' : 'bg-slate-900/50'}" id="projects">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <h2 class="text-4xl font-bold mb-16 text-center" data-aos="fade-up">Featured Projects</h2>
+            <div class="space-y-16">
+                ${data.projects.map((p, index) => `
+                <div class="glass-card ${cardClass} p-10 rounded-3xl hover:transform hover:scale-[1.01] transition-all duration-300 border-l-4 border-cyan-400" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <h3 class="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">${p.name}</h3>
+                    <p class="opacity-80 mb-8 text-xl leading-relaxed">${p.description}</p>
+                    <div class="flex flex-wrap gap-3">
+                        ${p.tech.split(',').map(t => `<span class="text-sm px-4 py-2 rounded-full ${isLight ? 'bg-slate-200 text-slate-700' : 'bg-slate-700/50 text-cyan-300 border border-cyan-500/30'}">${t.trim()}</span>`).join('')}
+                    </div>
+                </div>
+                `).join('')}
+            </div>
+        </div>
+    </section>
+    ` : ''}
 
     <!-- Skills -->
     <section class="py-20" id="skills">
@@ -318,18 +390,23 @@ async function generatePortfolio(apiKey, data) {
     - Resume URL: ${data.resume === "USE_PLACEHOLDER_RESUME" ? "USE_PLACEHOLDER_RESUME" : data.resume}
     - Skills: ${data.skills}
     - Tools: ${data.tools}
+    - Projects: ${JSON.stringify(data.projects)}
     
     REQUIREMENTS:
     1. STRICTLY SINGLE FILE: Put all CSS in <style> and JS in <script> tags within one HTML file.
     2. Use Tailwind CSS via CDN: <script src="https://cdn.tailwindcss.com"></script>
     3. Make it INTERACTIVE: Add hover effects, smooth scrolling, and scroll animations.
-    4. Sections: Hero (with Name/Title/Photo), About, Skills & Tools (Display as pills/grid), Contact.
+    4. Sections: Hero (with Name/Title/Photo), About, Featured Projects (if any), Skills & Tools (Display as pills/grid), Contact.
     5. IMPORTANT: For the Profile Photo, put the exact string "USE_PLACEHOLDER_PHOTO" in the src attribute.
     6. IMPORTANT: For the Resume Link, put the exact string "USE_PLACEHOLDER_RESUME" in the href attribute (and add download attribute if it makes sense).
 
     **CRITICAL DESIGN INSTRUCTIONS (FOLLOW THESE STRICTLY):**
     - **USER'S DESIGN REQUEST**: "${data.design}"
     - **BACKGROUND COLOR**: If user asks for Light/White/Clean -> Body MUST be 'bg-white' or 'bg-slate-50'. If Dark/Modern -> 'bg-slate-900' or 'bg-black'.
+    - **PROJECTS SECTION**: 
+        - Layout: **Vertical Stack** (One project per row), NOT a grid.
+        - Typography: Use **Large Fonts** for project titles (text-3xl or larger) and increase description size (text-lg).
+        - Styling: **NO IMAGES/ICONS** for projects. Focus on typography and card styling (glassmorphism/borders).
     - **DO NOT** use a generic "Dark Slate" theme unless the user asked for it.
     - **DO NOT** simply center everything. Use interesting layouts (asymmetric, split screen, grid-based).
     - **COLOR PALETTE**: derive a unique color palette relative to the user's request. If they say "Nature", use Greens/Browns. If "Ocean", use Teals/Blues. If "Elegant", use Black/Gold or Serif fonts.

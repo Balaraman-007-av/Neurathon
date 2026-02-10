@@ -3,14 +3,59 @@
 /* Tailwind will be loaded via CDN in HTML, specific overrides here */
 body {
     font-family: 'Outfit', sans-serif;
-    background-color: #0f172a;
-    /* Slate 900 */
-    background-image:
-        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
-    background-attachment: fixed;
+    /* Lively Gradient Background - Neon Cyberpunk Vibe */
+    background: linear-gradient(-45deg,
+            #0f172a,
+            /* Dark Base */
+            #312e81,
+            /* Indigo */
+            #4c1d95,
+            /* Violet */
+            #be185d,
+            /* Pink */
+            #0f172a
+            /* Loop back to dark */
+        );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: #e2e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll from interactive elements */
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Interactive Background Elements Container */
+#interactive-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.interactive-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    transition: transform 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .glass {

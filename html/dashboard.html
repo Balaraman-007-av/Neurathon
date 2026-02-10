@@ -16,6 +16,7 @@
 </head>
 
 <body class="min-h-screen pb-20">
+    <script src="../js/background.js"></script>
 
     <!-- Header -->
     <nav class="glass sticky top-0 z-50 border-b border-slate-700/50">
@@ -81,6 +82,23 @@
                             <textarea id="pBio" minlength="25"
                                 class="w-full bg-slate-800/50 border border-slate-600 rounded-2xl px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 h-24 resize-none"
                                 placeholder="A passionate developer building web experiences..." required></textarea>
+                        </div>
+
+                        <!-- Projects Section -->
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Featured
+                                    Projects</label>
+                                <div class="flex items-center gap-2">
+                                    <label class="text-xs text-slate-500">Count:</label>
+                                    <input type="number" id="projectCount" min="0" max="3" value="0"
+                                        class="w-16 bg-slate-800/50 border border-slate-600 rounded-lg px-2 py-1 text-center outline-none focus:border-cyan-400 text-white text-sm">
+                                </div>
+                            </div>
+
+                            <div id="projectsContainer" class="space-y-4">
+                                <!-- Dynamic Project Fields will be injected here -->
+                            </div>
                         </div>
 
                         <!-- Asset Links -->
