@@ -193,8 +193,15 @@ function generateMockPortfolio(data) {
     const cardClass = isLight ? "bg-white/50 border border-slate-200 shadow-xl" : "bg-slate-800/50 border border-slate-700";
     const accentColor = "cyan"; // Could be dynamic too
 
-    const skillsList = data.skills.split(',').map(s => s.trim()).filter(s => s).map(s => `<span class="${isLight ? 'bg-cyan-100 text-cyan-700 border-cyan-200' : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'} px-3 py-1 rounded-full text-sm font-medium border">${s}</span>`).join('');
-    const toolsList = data.tools.split(',').map(t => t.trim()).filter(t => t).map(t => `<span class="${isLight ? 'bg-slate-100 text-slate-700' : 'bg-slate-700 text-slate-300'} px-3 py-1 rounded-full text-sm font-medium">${t}</span>`).join('');
+    const skillsList = data.skills.split(',').map(s => s.trim()).filter(s => s).map(s => `
+        <div class="flex items-center gap-3 text-lg opacity-80 border-b border-slate-700/50 pb-2 last:border-0 hover:pl-2 transition-all duration-300">
+            <span class="text-cyan-400">►</span> ${s}
+        </div>`).join('');
+
+    const toolsList = data.tools.split(',').map(t => t.trim()).filter(t => t).map(t => `
+        <div class="flex items-center gap-3 text-lg opacity-80 border-b border-slate-700/50 pb-2 last:border-0 hover:pl-2 transition-all duration-300">
+            <span class="text-green-400">►</span> ${t}
+        </div>`).join('');
 
     return `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -266,20 +273,24 @@ function generateMockPortfolio(data) {
 
     <!-- Skills -->
     <section class="py-20" id="skills">
-        <div class="container mx-auto px-6 max-w-4xl">
-            <h2 class="text-3xl font-bold mb-12 text-center" data-aos="fade-up">Technical Arsenal</h2>
+        <div class="container mx-auto px-6 max-w-5xl">
+            <h2 class="text-4xl font-bold mb-16 text-center" data-aos="fade-up">Technical Skills</h2>
             
-            <div class="mb-10" data-aos="fade-right">
-                <h3 class="text-xl text-cyan-400 mb-4 font-semibold">Core Skills</h3>
-                <div class="flex flex-wrap gap-3">
-                    ${skillsList}
+            <div class="space-y-12">
+                <!-- Skills Card -->
+                <div class="glass-card ${cardClass} p-10 rounded-3xl" data-aos="fade-up">
+                    <h3 class="text-3xl font-bold text-cyan-400 mb-8 border-b-2 border-cyan-500/30 pb-4 inline-block">Core Skills</h3>
+                    <div class="space-y-4">
+                        ${skillsList}
+                    </div>
                 </div>
-            </div>
 
-            <div data-aos="fade-left">
-                <h3 class="text-xl text-blue-400 mb-4 font-semibold">Tools & Frameworks</h3>
-                <div class="flex flex-wrap gap-3">
-                    ${toolsList}
+                <!-- Tools Card -->
+                <div class="glass-card ${cardClass} p-10 rounded-3xl" data-aos="fade-up">
+                    <h3 class="text-3xl font-bold text-green-400 mb-8 border-b-2 border-green-500/30 pb-4 inline-block">Tools</h3>
+                    <div class="space-y-4">
+                        ${toolsList}
+                    </div>
                 </div>
             </div>
         </div>
@@ -409,7 +420,11 @@ async function generatePortfolio(apiKey, data) {
         - Styling: **NO IMAGES/ICONS** for projects. Focus on typography and card styling (glassmorphism/borders).
     - **DO NOT** use a generic "Dark Slate" theme unless the user asked for it.
     - **DO NOT** simply center everything. Use interesting layouts (asymmetric, split screen, grid-based).
-    - **COLOR PALETTE**: derive a unique color palette relative to the user's request. If they say "Nature", use Greens/Browns. If "Ocean", use Teals/Blues. If "Elegant", use Black/Gold or Serif fonts.
+    - **SKILLS & TOOLS**: 
+        - Rename section to "Technical Skills" (Remove "Frameworks").
+        - Layout: Use **Two Large Cards** Stacked **Vertically** (One below the other).
+        - Content: Display items as a **Vertical List** with small arrow/chevron bullets.
+        - Typography: Large Headers (text-3xl), Clear readable list items (text-lg).
     - **Create a truly unique portfolio** that looks different from a standard template.
     
     7. Return ONLY the raw HTML code. Do not wrap it in markdown blocks like \`\`\`html.
