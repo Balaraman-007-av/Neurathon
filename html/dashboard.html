@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../logo/image.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Create AI Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Highlight.js for code display -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+</head>
+
+<body class="min-h-screen pb-20">
+
+    <!-- Header -->
+    <nav class="glass sticky top-0 z-50 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <img src="../logo/image.png" alt="Logo" class="h-10 w-10 mr-3 object-contain">
+                    <span class="font-bold text-xl tracking-tight">Portfoli<span class="text-cyan-400">AI</span></span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="userName" class="text-slate-300 hidden sm:block">User</span>
+                    <button onclick="Auth.logout()" class="text-slate-400 hover:text-white transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <div id="mainContainer"
+            class="flex flex-col lg:flex-row gap-0 transition-all duration-700 ease-in-out relative">
+
+            <!-- Left Column: Input Form -->
+            <div id="leftCol" class="w-full max-w-3xl mx-auto transition-all duration-700 ease-in-out">
+                <div class="glass p-6 rounded-2xl">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center">
+                        <span class="bg-cyan-500/20 text-cyan-400 p-2 rounded-lg mr-3 shadow-lg shadow-cyan-500/10">
+                            <i class="fas fa-pen-fancy"></i>
+                        </span>
+                        Portfolio Details
+                    </h2>
+
+                    <form id="portfolioForm" class="space-y-5">
+
+
+
+                        <!-- Basic Info -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Full
+                                    Name</label>
+                                <input type="text" id="pName"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 mt-1"
+                                    placeholder="Jane Doe" required>
+                            </div>
+                            <div>
+                                <label
+                                    class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Professional
+                                    Title</label>
+                                <input type="text" id="pTitle"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 mt-1"
+                                    placeholder="Full Stack Developer" required>
+                            </div>
+                        </div>
+
+                        <!-- Bio -->
+                        <div>
+                            <label
+                                class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Short
+                                Bio</label>
+                            <textarea id="pBio" minlength="25"
+                                class="w-full bg-slate-800/50 border border-slate-600 rounded-2xl px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 h-24 resize-none"
+                                placeholder="A passionate developer building web experiences..." required></textarea>
+                        </div>
+
+                        <!-- Asset Links -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Profile
+                                    Photo (Image)</label>
+                                <input type="file" id="pPhoto" accept="image/*"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-cyan-500/20 file:text-cyan-400 hover:file:bg-cyan-500/30"
+                                    style="color: white;">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Resume
+                                    (PDF/Doc)</label>
+                                <input type="file" id="pResume" accept=".pdf,.doc,.docx"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500/20 file:text-blue-400 hover:file:bg-blue-500/30"
+                                    style="color: white;">
+                            </div>
+                        </div>
+
+                        <!-- Contact & Social -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label
+                                    class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Email</label>
+                                <input type="email" id="pEmail"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500"
+                                    placeholder="me@example.com" required>
+                            </div>
+                            <div>
+                                <label
+                                    class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">LinkedIn
+                                    URL</label>
+                                <input type="url" id="pLinkedin"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500"
+                                    placeholder="linkedin.com/in/..." required>
+                            </div>
+                            <div>
+                                <label
+                                    class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">GitHub
+                                    URL</label>
+                                <input type="url" id="pGithub"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500"
+                                    placeholder="github.com/..." required>
+                            </div>
+                        </div>
+
+                        <!-- Skills & Tools -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Technical
+                                    Skills</label>
+                                <input type="text" id="pSkills"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 mt-1"
+                                    placeholder="React, Python, AWS, Docker" required>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tools &
+                                    Technologies</label>
+                                <input type="text" id="pTools"
+                                    class="w-full bg-slate-800/50 border border-slate-600 rounded-full px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 mt-1"
+                                    placeholder="VS Code, Figma, Jira, Git" required>
+                            </div>
+                        </div>
+
+                        <!-- Design Preference -->
+                        <div>
+                            <label
+                                class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Design
+                                Style</label>
+                            <textarea id="pDesign" rows="3"
+                                class="w-full bg-slate-800/50 border border-slate-600 rounded-2xl px-6 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500 w-full resize-none"
+                                placeholder="I want a dark, futuristic theme with neon accents and smooth scrolling animations..."
+                                required></textarea>
+                        </div>
+
+                        <button type="submit" id="generateBtn"
+                            class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/20 flex justify-center items-center gap-2">
+                            <span>Generate Portfolio</span>
+                            <i class="fas fa-magic"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: Preview & Status -->
+            <div id="rightCol"
+                class="w-0 opacity-0 overflow-hidden transition-all duration-700 ease-in-out flex flex-col gap-6">
+                <!-- Status Card -->
+                <div id="statusCard" class="glass p-6 rounded-2xl hidden">
+                    <h3 class="text-lg font-bold mb-2">Status</h3>
+                    <div id="statusText" class="text-slate-300">Evaluating requirements...</div>
+                    <div class="w-full bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden">
+                        <div id="progressBar" class="bg-cyan-500 h-2 rounded-full w-0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Area -->
+                <div class="glass flex-1 w-full h-[600px] rounded-2xl relative flex flex-col overflow-hidden">
+                    <iframe id="previewFrame" class="w-full h-full bg-white z-10 hidden border-0"></iframe>
+                </div>
+
+                <!-- Actions -->
+                <div id="actionButtons" class="hidden grid grid-cols-2 gap-4">
+                    <button onclick="downloadCode()"
+                        class="glass hover:bg-slate-700/50 p-4 rounded-xl text-center transition-all">
+                        <i class="fas fa-download text-cyan-400 mb-2 text-xl"></i>
+                        <div class="font-bold">Download HTML</div>
+                    </button>
+                    <a id="hostLink" target="_blank"
+                        class="glass hover:bg-slate-700/50 p-4 rounded-xl text-center transition-all cursor-pointer">
+                        <i class="fas fa-external-link-alt text-green-400 mb-2 text-xl"></i>
+                        <div class="font-bold">Open Fullscreen</div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/generator.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../logo/image.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Portfolio Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-900">
+
+    <div class="glass w-full max-w-md mx-auto p-8 rounded-2xl shadow-2xl animate-fade-in relative overflow-hidden">
+        <!-- Decorative background blurs -->
+        <div class="absolute -top-10 -left-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl"></div>
+
+        <div class="relative z-10 text-center mb-8">
+            <div class="inline-block p-3 rounded-full bg-slate-800/50 mb-3 border border-slate-700">
+                <img src="../logo/image.png" alt="Logo" class="h-12 w-12 object-contain">
+            </div>
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+                Welcome Back</h1>
+            <p class="text-slate-400 mt-2">Sign in to manage your AI portfolios</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6 relative z-10">
+            <div>
+                <label class="block text-slate-300 mb-2 text-sm font-medium">Email Address</label>
+                <div class="relative">
+                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="email" id="email" required
+                        class="w-full bg-slate-800/50 border border-slate-600 rounded-lg pl-10 pr-4 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500"
+                        placeholder="you@example.com">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-slate-300 mb-2 text-sm font-medium">Password</label>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="password" id="password" required
+                        class="w-full bg-slate-800/50 border border-slate-600 rounded-lg pl-10 pr-4 py-3 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-colors text-white placeholder-slate-500"
+                        placeholder="••••••••">
+                </div>
+            </div>
+
+            <div id="errorMsg"
+                class="hidden text-red-400 text-sm text-center bg-red-500/10 py-2 rounded-lg border border-red-500/20">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/20">
+                Sign In
+            </button>
+        </form>
+
+        <p class="text-center mt-6 text-slate-400 relative z-10">
+            Don't have an account? <a href="register.html"
+                class="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Register</a>
+        </p>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Use auth.js
+        if (Auth.getCurrentUser()) {
+            window.location.href = 'dashboard.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const result = Auth.login(email, password);
+            if (result.success) {
+                window.location.href = 'dashboard.html';
+            } else {
+                const err = document.getElementById('errorMsg');
+                err.textContent = result.message;
+                err.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>
