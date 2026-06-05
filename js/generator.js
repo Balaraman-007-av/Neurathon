@@ -149,14 +149,14 @@ function updateProjectFields() {
         // Add fields
         for (let i = currentFields; i < count; i++) {
             const projectDiv = document.createElement('div');
-            projectDiv.className = 'glass p-4 rounded-xl border border-slate-600/50 space-y-3 animate-fade-in';
+            projectDiv.className = 'glass p-4 rounded-xl border border-slate-200 space-y-3 animate-fade-in';
             projectDiv.innerHTML = `
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-bold text-cyan-400 uppercase">Project ${i + 1}</span>
                 </div>
-                <input type="text" class="proj-name w-full bg-slate-800/50 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:border-cyan-400 outline-none" placeholder="Project Name" required>
-                <textarea class="proj-desc w-full bg-slate-800/50 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:border-cyan-400 outline-none resize-none h-16" placeholder="Brief description of the project..." required></textarea>
-                <input type="text" class="proj-tech w-full bg-slate-800/50 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 focus:border-cyan-400 outline-none" placeholder="Tech Stack (e.g., React, Node.js)" required>
+                <input type="text" class="proj-name w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 placeholder-slate-500 focus:border-cyan-400 outline-none" placeholder="Project Name" required>
+                <textarea class="proj-desc w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 placeholder-slate-500 focus:border-cyan-400 outline-none resize-none h-16" placeholder="Brief description of the project..." required></textarea>
+                <input type="text" class="proj-tech w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 placeholder-slate-500 focus:border-cyan-400 outline-none" placeholder="Tech Stack (e.g., React, Node.js)" required>
             `;
             projectsContainer.appendChild(projectDiv);
         }
@@ -408,8 +408,9 @@ async function generatePortfolio(apiKey, data) {
     2. Use Tailwind CSS via CDN: <script src="https://cdn.tailwindcss.com"></script>
     3. Make it INTERACTIVE: Add hover effects, smooth scrolling, and scroll animations.
     4. Sections: Hero (with Name/Title/Photo), About, Featured Projects (if any), Skills & Tools (Display as pills/grid), Contact.
-    5. IMPORTANT: For the Profile Photo, put the exact string "USE_PLACEHOLDER_PHOTO" in the src attribute.
-    6. IMPORTANT: For the Resume Link, put the exact string "USE_PLACEHOLDER_RESUME" in the href attribute (and add download attribute if it makes sense).
+    5. **ABOUT SECTION CRITICAL**: The provided 'Bio' input may consist of specific keywords (e.g., 'React, Developer, 3 years exp'). You MUST expand this into a cohesive, professional and concise narrative summary. Do NOT just copy the keywords. Write a story about the professional.
+    6. IMPORTANT: For the Profile Photo, put the exact string "USE_PLACEHOLDER_PHOTO" in the src attribute.
+    7. IMPORTANT: For the Resume Link, put the exact string "USE_PLACEHOLDER_RESUME" in the href attribute (and add download attribute if it makes sense).
 
     **CRITICAL DESIGN INSTRUCTIONS (FOLLOW THESE STRICTLY):**
     - **USER'S DESIGN REQUEST**: "${data.design}"

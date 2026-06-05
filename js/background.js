@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+
+        // Update CSS variables for text gradient effect
+        document.documentElement.style.setProperty('--mouse-x', mouseX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', mouseY + 'px');
     });
 
     // Animation Loop

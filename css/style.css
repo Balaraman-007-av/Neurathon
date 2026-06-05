@@ -3,28 +3,112 @@
 /* Tailwind will be loaded via CDN in HTML, specific overrides here */
 body {
     font-family: 'Outfit', sans-serif;
-    /* Lively Gradient Background - Neon Cyberpunk Vibe */
-    background: linear-gradient(-45deg,
-            #0f172a,
-            /* Dark Base */
-            #312e81,
-            /* Indigo */
-            #4c1d95,
-            /* Violet */
-            #be185d,
-            /* Pink */
-            #0f172a
-            /* Loop back to dark */
-        );
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    color: #e2e8f0;
+    /* User Requested Change: Solid Light Cyan Background */
+    /* User Requested Change: Lighten Background by ~20% */
+    background-color: rgb(220, 255, 255);
+    color: #0f172a;
+    /* Dark text fallback */
     min-height: 100vh;
     overflow-x: hidden;
-    /* Prevent horizontal scroll from interactive elements */
+}
+
+/* Apply the "Galaxy + Blob" effect to text */
+h1,
+h2,
+h3,
+h4,
+span.gradient-text,
+.nav-item,
+a,
+p,
+label,
+span,
+i,
+button,
+input,
+textarea,
+select {
+    color: transparent !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    background-image:
+        radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            #22d3ee 0%,
+            #818cf8 25%,
+            #e879f9 50%,
+            transparent 100%),
+        linear-gradient(135deg, #0f172a 0%, #312e81 50%, #4c1d95 100%) !important;
+    background-attachment: fixed !important;
+    /* Ensure background helps visibility */
+    background-size: 100vw 100vh !important;
+    background-repeat: no-repeat !important;
+    transition: background-image 0.1s ease;
+}
+
+/* Ensure inputs/textareas are readable and standard but with the effect */
+input,
+textarea,
+select {
+    color: transparent !important;
+    /* Make transparent so background image shows */
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    caret-color: #312e81;
+    /* Indigo cursor so it's visible */
+    background-color: white !important;
+    /* Ensure background is white */
+    /* We need the background IMAGE for the text, so we can't just set background-color 
+        Wait, background-clip: text works on the element's background. 
+        If we set background-color: white, the text will clip that white background? No.
+        
+        Correction:
+        To have "galaxy text" inside an input, the input's background-image must be the galaxy gradient.
+        BUT the user wants "boxing where we have the input fields to be white".
+        This implies the input's BACKGROUND COLOR should be white.
+        
+        If I set background-image to galaxy, and background-clip: text, the background of the box will be transparent (showing the body background).
+        To get a WHITE box with GALAXY text, we might need a wrapper or a specific trick.
+        
+        Standard `background-clip: text` on an input is tricky because the input's background IS the text's fill.
+        
+        Let's try a different approach for inputs to be safe: 
+        Keep the "galaxy text" effect but we need the box to be white.
+        If we set `background-color: white`, it might override the image or sit behind it.
+        
+        Let's try:
+        background-image: galaxy-gradient;
+        background-color: white; (This usually renders behind image)
+        background-clip: text; (This clips the IMAGE and COLOR to the text)
+        >> Result: The box itself has NO background (transparent).
+        
+        The user wants "boxes... to white".
+        So the input element needs a white background.
+        If the input element has a white background, we can't easily clip a *different* background into the text *on the same element* without `background-clip: text` eating the box background.
+        
+        Compromise/Solution:
+        Set the text color to a deep indigo/galaxy color (solid) instead of the complex gradient for inputs if the clip doesn't work well with a background color.
+        OR
+        Use a very dark text color that matches the theme.
+        
+        Re-reading user request: "inputs text color same as the rest"
+        "rest" = galaxy text.
+        
+        Let's try to simulate it or just use a solid color that matches the galaxy theme (e.g., #312e81) to avoid the "invisible box" issue.
+        Actually, sticking to a solid dark color like #4c1d95 (Indigo) or #0f172a (Slate 900) is safer and readable on white.
+        The complex "blob follows mouse" inside an input field might be overkill/broken.
+        
+        Let's go with a solid deep color that LOOKS like the theme.
+     */
+    color: #312e81 !important;
+    /* Deep Indigo */
+    background-clip: border-box !important;
+    -webkit-background-clip: border-box !important;
+    background-image: none !important;
 }
 
 @keyframes gradientBG {
+
+    /* Deprecated in new design, keeping for reference or removal */
     0% {
         background-position: 0% 50%;
     }
@@ -59,10 +143,12 @@ body {
 }
 
 .glass {
-    background: rgba(255, 255, 255, 0.05);
+    /* User Requested Change: White Containers */
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
 }
 
 .input-field {
@@ -104,6 +190,11 @@ input:-webkit-autofill:active {
     animation: spin 1s linear infinite;
 }
 
+-webkit-animation: spin 1s linear infinite;
+/* Safari */
+animation: spin 1s linear infinite;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -112,4 +203,27 @@ input:-webkit-autofill:active {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Galaxy Button Style */
+.btn-galaxy {
+    @apply font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.05] active:scale-[0.98] shadow-lg shadow-cyan-500/20 flex justify-center items-center gap-2;
+
+    /* Light Greenish Cyan Background */
+    background: linear-gradient(135deg, #b9fffa 0%, #22d3ee 100%);
+
+    /* Dark Text */
+    color: #0f172a !important;
+    border: 1px solid #99f6e4;
+}
+
+.btn-galaxy:hover {
+    box-shadow: 0 0 25px rgba(34, 211, 238, 0.6);
+    background: linear-gradient(135deg, #ccfffd 0%, #67e8f9 100%);
+    border-color: #67e8f9;
+}
+
+box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+/* Cyan glow on hover */
+border-color: rgba(34, 211, 238, 0.4);
 }
